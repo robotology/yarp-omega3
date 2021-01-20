@@ -5,6 +5,16 @@ Simple YARP-enabled server for the [Force Dimension Omega.3](https://www.forcedi
 
 Supports Linux only at the moment.
 
+### Dependencies
+
+- [libpthread](https://www.gnu.org/software/hurd/libpthread.html)
+- [libusb](https://libusb.info/)
+- [YCM](https://github.com/robotology/ycm)
+
+Notes: 
+- the SDK of the robot is automatically downloaded during the build process
+- `libpthread` and `libusb`, both required by the robot SDK, can be easily installed, e.g. in Ubuntu use `apt install libusb-dev libpthread-stubs0-dev`
+
 ### How to build
 
 ```
