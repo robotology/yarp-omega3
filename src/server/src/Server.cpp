@@ -111,7 +111,6 @@ bool Server::updateModule()
     {
         drdMoveToPos(x_, y_, z_, false);
 
-        // state_ = State::PositionControl;
         set_state(State::PositionControl);
     }
     else if (state == State::ForceControl)
@@ -125,8 +124,6 @@ bool Server::updateModule()
 
 std::string Server::set_force(const double f_x, const double f_y, const double f_z)
 {
-    // std::lock_guard<std::mutex> lock(mutex_);
-
     State state = get_state();
 
     if (state == State::Idle)
@@ -135,7 +132,6 @@ std::string Server::set_force(const double f_x, const double f_y, const double f
     if (state != State::ForceControl)
         enable_force_control();
 
-    // state_ = State::ForceControl;
     set_state(State::ForceControl);
 
     f_x_ = f_x;
@@ -148,8 +144,6 @@ std::string Server::set_force(const double f_x, const double f_y, const double f
 
 std::string Server::set_position(const double x, const double y, const double z)
 {
-    // std::lock_guard<std::mutex> lock(mutex_);
-
     State state = get_state();
 
     if (state == State::Idle)
@@ -158,7 +152,6 @@ std::string Server::set_position(const double x, const double y, const double z)
     if (state != State::PositionControl)
         enable_position_control();
 
-    // state_ = State::SetPosition;
     set_state(State::SetPosition);
 
     x_ = x;
@@ -171,8 +164,6 @@ std::string Server::set_position(const double x, const double y, const double z)
 
 std::string Server::track_position(const double x, const double y, const double z)
 {
-    // std::lock_guard<std::mutex> lock(mutex_);
-
     State state = get_state();
 
     if (state == State::Idle)
@@ -181,7 +172,6 @@ std::string Server::track_position(const double x, const double y, const double 
     if (state != State::PositionTracking)
         enable_position_tracking();
 
-    // state_ = State::PositionTracking;
     set_state(State::PositionTracking);
 
     x_ = x;
@@ -194,9 +184,6 @@ std::string Server::track_position(const double x, const double y, const double 
 
 std::string Server::stop()
 {
-    // std::lock_guard<std::mutex> lock(mutex_);
-
-    // state_ = State::Idle;
     set_state(State::Idle);
 
     stop_motion();
@@ -207,9 +194,6 @@ std::string Server::stop()
 
 std::string Server::quit()
 {
-    // std::lock_guard<std::mutex> lock(mutex_);
-
-    // state_ = State::Close;
     set_state(State::Close);
 
     return "OK";
