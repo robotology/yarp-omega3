@@ -27,7 +27,7 @@ git clone https://github.com/robotology-playground/yarp-omega3
 cd yarp-omega3
 mkdir build
 cd build
-cmake . -DCMAKE_INSTALL_PREFIX=<where_to_install>
+cmake -DCMAKE_INSTALL_PREFIX=<where_to_install> ../
 make install
 ```
 
