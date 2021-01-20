@@ -15,9 +15,9 @@ Supports Linux only at the moment.
 
 Notes:
 - the SDK of the robot is automatically downloaded during the build process
-- `libpthread` and `libusb`, both required by the robot SDK, can be easily installed, e.g. in Ubuntu use 
+- `libpthread` and `libusb`, both required by the robot SDK, can be easily installed, e.g. in Ubuntu use
    ```
-   apt install libusb-dev libpthread-stubs0-dev
+   apt install libusb-1.0-0-dev libpthread-stubs0-dev
    ```
 
 ### How to build
