@@ -83,8 +83,8 @@ target_link_libraries(${EXE_TARGET_NAME}
                       YARP::YARP_init
                       YARP::YARP_os
                       YARP::YARP_sig
-                      ${Libusb1_LIBRARIES}
                       ${CMAKE_CURRENT_SOURCE_DIR}/sdk-${SDK_VERSION}/lib/release/lin-x86_64-gcc/libdrd.a
+                      ${Libusb1_LIBRARIES}
 )
 
 install(TARGETS ${EXE_TARGET_NAME} DESTINATION bin)
