@@ -1,4 +1,4 @@
-yarp-omega-3
+yarp-omega3
 ======================
 
 Simple YARP-enabled server for Force Dimension Omega.3 device.
@@ -8,8 +8,8 @@ Supports Linux only at the moment.
 ### How to build
 
 ```
-git clone https://github.com/robotology-playground/yarp-omega-3
-cd yarp-omega-3
+git clone https://github.com/robotology-playground/yarp-omega3
+cd yarp-omega3
 mkdir build
 cd build
 cmake . -DCMAKE_PREFIX_PATH=<where_to_install>
