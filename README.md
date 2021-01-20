@@ -13,7 +13,10 @@ Supports Linux only at the moment.
 
 Notes:
 - the SDK of the robot is automatically downloaded during the build process
-- `libpthread` and `libusb`, both required by the robot SDK, can be easily installed, e.g. in Ubuntu use `apt install libusb-dev libpthread-stubs0-dev`
+- `libpthread` and `libusb`, both required by the robot SDK, can be easily installed, e.g. in Ubuntu use 
+   ```
+   apt install libusb-dev libpthread-stubs0-dev
+   ```
 
 ### How to build
 
@@ -43,3 +46,11 @@ Available commands are
 The module switches from position to force control depending on the input from the user.
 
 [Sample modules](src/samples/python) written in Python are available.
+
+### Maintainers
+
+This repository is maintained by:
+
+| | |
+|:---:|:---:|
+| [<img src="https://github.com/xenvre.png" width="40">](https://github.com/xenvre) | [@xenvre](https://github.com/xenvre) |
