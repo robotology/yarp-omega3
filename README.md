@@ -1,7 +1,7 @@
 yarp-omega-3
 ======================
 
-Simple YARP-ports enabled server for Force Dimension Omega.3 device.
+Simple YARP-enabled server for Force Dimension Omega.3 device.
 
 Supports Linux only at the moment.
 
@@ -20,4 +20,4 @@ In order to use the device in user space, you need to import the provided [udev 
 
 ### How to use
 
-WIP
+Run `yarp-omega3-server` and send RPC commands to `/yarp-omega-3-server/rpc:i`
