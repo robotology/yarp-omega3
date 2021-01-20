@@ -42,7 +42,7 @@ endif()
 file(ARCHIVE_EXTRACT INPUT ${CMAKE_CURRENT_SOURCE_DIR}/sdk.tar.gz DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Configure the actual executable
-set(EXE_TARGET_NAME yarp-omega-3-server)
+set(EXE_TARGET_NAME yarp-omega3-server)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 
 # Find required dependencies

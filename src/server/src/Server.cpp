@@ -31,7 +31,7 @@ bool Server::configure(ResourceFinder& rf)
     /* Collect configuration parameters. */
     period_ = rf.check("period", Value("0.01")).asDouble();
 
-    if (!port_rpc_.open("/yarp-omega-3-server/rpc:i"))
+    if (!port_rpc_.open("/yarp-omega3-server/rpc:i"))
     {
         std::cout << "Error: cannot open RPC port." << std::endl;
 

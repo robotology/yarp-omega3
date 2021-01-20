@@ -33,7 +33,7 @@ def main():
 
     rpc_client = yarp.RpcClient()
     rpc_client.open('/test-omega/rpc:o')
-    yarp.NetworkBase.connect( '/test-omega/rpc:o', '/yarp-omega-3-server/rpc:i')
+    yarp.NetworkBase.connect( '/test-omega/rpc:o', '/yarp-omega3-server/rpc:i')
 
     # Test a simple circular motion
 
