@@ -41,9 +41,9 @@ Available commands are
 - help
 - stop (completely disengange robot control)
 - quit (close the module)
-- set_position <x> <y> <z> (send a static position)
-- track_position <x> <y> <z> (send a position, to be used in _streaming_ mode)
-- set_force <f_x> <f_y> <f_z> (send a force reference)
+- set_position x y z (send a static position)
+- track_position x y z (send a position, to be used in _streaming_ mode)
+- set_force f_x f_y f_z (send a force reference)
 
 The module switches from position to force control depending on the input from the user.
 
