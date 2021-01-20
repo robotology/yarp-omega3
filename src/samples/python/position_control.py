@@ -48,6 +48,10 @@ def main():
         time.sleep(2.0)
 
         send_position_reference(rpc_client, 0.0, 0.0, 0.0)
+        time.sleep(2.0)
+
+        send_stop(rpc_client)
+        time.sleep(2.0)
 
     except KeyboardInterrupt:
         send_stop(rpc_client)
