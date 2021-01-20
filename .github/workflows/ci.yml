@@ -48,7 +48,7 @@ jobs:
         git checkout ${YARP_TAG}
         mkdir build
         cd build
-        cmake  -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install ..
+        cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install ..
         cmake --build . --config ${{ matrix.build_type }} --target install
 
     - name: Create Build Environment
@@ -58,7 +58,7 @@ jobs:
       if: contains(matrix.os, 'ubuntu')
       shell: bash
       working-directory: ${{runner.workspace}}/build
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
 
     - name: Build
       working-directory: ${{runner.workspace}}/build
