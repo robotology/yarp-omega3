@@ -14,6 +14,7 @@
 #include <yarp/os/Value.h>
 
 using namespace yarp::os;
+using namespace yarp::sig;
 
 
 bool Server::close()
@@ -31,6 +32,7 @@ bool Server::configure(ResourceFinder& rf)
     /* Collect configuration parameters. */
     period_ = rf.check("period", Value("0.01")).asDouble();
 
+    /* Set up port for commands. */
     if (!port_rpc_.open("/yarp-omega3-server/rpc:i"))
     {
         std::cout << "Error: cannot open RPC port." << std::endl;
@@ -45,10 +47,25 @@ bool Server::configure(ResourceFinder& rf)
         return false;
     }
 
+    /* Set up ports for streaming. */
+    if (!port_position_.open("/yarp-omega3-server/position:o"))
+    {
+        std::cout << "Error: cannot open output port for position." << std::endl;
+
+        return false;
+    }
+
+    if (!port_force_.open("/yarp-omega3-server/force:o"))
+    {
+        std::cout << "Error: cannot open output port for force." << std::endl;
+
+        return false;
+    }
+
     /* Initialize the device. */
     if (drdOpen() < 0)
     {
-        std::cout << "Error: cannot initialize the robot." << std::endl;
+        std::cout << "Error: cannot initialize the Omega.3 robot." << std::endl;
 
         return false;
     }
@@ -62,13 +79,13 @@ bool Server::configure(ResourceFinder& rf)
 
     if (!drdIsInitialized () && drdAutoInit () < 0)
     {
-        std::cout << "Error: cannot initialize the robot." << std::endl;
+        std::cout << "Error: cannot initialize the Omega.3 robot." << std::endl;
 
         return false;
     }
     else if (drdStart () < 0)
     {
-        std::cout << "Error: cannot initialize the robot." << std::endl;
+        std::cout << "Error: cannot start the Omega.3 robot." << std::endl;
 
         return false;
     }
@@ -92,6 +109,8 @@ double Server::getPeriod()
 
 bool Server::updateModule()
 {
+    stream_robot_state();
+
     State state = get_state();
 
     if (state == State::Close)
@@ -223,6 +242,18 @@ void Server::enable_force_control()
 }
 
 
+Server::State Server::get_state()
+{
+    State state;
+
+    mutex_.lock();
+    state = state_;
+    mutex_.unlock();
+
+    return state;
+}
+
+
 void Server::stop_motion()
 {
     drdStop();
@@ -237,13 +268,22 @@ void Server::set_state(const State& state)
 }
 
 
-Server::State Server::get_state()
+void Server::stream_robot_state()
 {
-    State state;
+    double position[3];
 
-    mutex_.lock();
-    state = state_;
-    mutex_.unlock();
+    dhdGetPosition(&position[0], &position[1], &position[2]);
 
-    return state;
+    Vector& position_out = port_position_.prepare();
+    position_out = Vector(3, position);
+    port_position_.write();
+
+
+    double force[3];
+
+    dhdGetForce(&force[0], &force[1], &force[2]);
+
+    Vector& force_out = port_force_.prepare();
+    force_out = Vector(3, force);
+    port_force_.write();
 }
