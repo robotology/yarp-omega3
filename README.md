@@ -47,6 +47,10 @@ Available commands are
 
 The module switches from position to force control depending on the input from the user.
 
+The state of the robot is available in forms of `yarp::sig::Vector`s sent over the ports
+- `/yarp-omega3-server/position:i` (3 Cartesian coordinates of the robot)
+- `/yarp-omega3-server/force:i` (3 coordinates of the force at the end effector)
+
 [Sample modules](src/samples/python) written in Python are available.
 
 ### Maintainers
