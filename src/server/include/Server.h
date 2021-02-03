@@ -12,9 +12,12 @@
 
 #include <mutex>
 
+#include <yarp/os/BufferedPort.h>
 #include <yarp/os/Port.h>
 #include <yarp/os/ResourceFinder.h>
 #include <yarp/os/RFModule.h>
+
+#include <yarp/sig/Vector.h>
 
 
 class Server : public yarp::os::RFModule,
@@ -59,11 +62,13 @@ private:
 
     void enable_force_control();
 
-    void stop_motion();
+    Server::State get_state();
 
     void set_state(const State& state);
 
-    Server::State get_state();
+    void stop_motion();
+
+    void stream_robot_state();
 
     /**
      * Parameters.
@@ -89,11 +94,18 @@ private:
     double f_z_ = 0.0;
 
     /**
-     * RPC server
+     * RPC server.
      */
     std::mutex mutex_;
 
     yarp::os::Port port_rpc_;
+
+    /**
+     * Output ports.
+     */
+    yarp::os::BufferedPort<yarp::sig::Vector> port_position_;
+
+    yarp::os::BufferedPort<yarp::sig::Vector> port_force_;
 };
 
 #endif /* SERVER_H */
