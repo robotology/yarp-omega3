@@ -1,0 +1,4 @@
+build/*
+.vscode/*
+src/server/sdk-3.10.1/*
+src/server/sdk.tar.gz

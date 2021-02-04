@@ -19,7 +19,6 @@
 
 #include <yarp/sig/Vector.h>
 
-
 class Server : public yarp::os::RFModule,
                public ServiceIDL
 {
@@ -44,14 +43,28 @@ public:
 
     std::string set_position(const double x, const double y, const double z) override;
 
+    std::string set_position_move_param(const double amax, const double vmax, const double jerk) override;
+
     std::string track_position(const double x, const double y, const double z) override;
+
+    std::string set_position_track_param(const double amax, const double vmax, const double jerk) override;
 
     std::string stop() override;
 
     std::string quit() override;
 
 private:
-    enum class State { Close, Idle, PositionControl, PositionTracking, ForceControl, SetPosition};
+    enum class State
+    {
+        Close,
+        Idle,
+        PositionControl,
+        PositionTracking,
+        ForceControl,
+        SetPosition,
+        SetPosMoveParam,
+        SetPosTrackParam
+    };
 
     /**
      * Private API
@@ -93,6 +106,12 @@ private:
 
     double f_z_ = 0.0;
 
+    double amax_ = 0.0;
+
+    double vmax_ = 0.0;
+
+    double jerk_ = 0.0;
+
     /**
      * RPC server.
      */
@@ -103,9 +122,7 @@ private:
     /**
      * Output ports.
      */
-    yarp::os::BufferedPort<yarp::sig::Vector> port_position_;
-
-    yarp::os::BufferedPort<yarp::sig::Vector> port_force_;
+    yarp::os::BufferedPort<yarp::sig::Vector> port_robot_state_;
 };
 
 #endif /* SERVER_H */
