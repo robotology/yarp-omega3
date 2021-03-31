@@ -35,6 +35,8 @@ In order to use the device in user space, you need to import the provided [udev 
 
 ### How to use
 
+For the first use it might be neccesary to reboot system to connect to `yarp-omega3-server` when connected to a usb hub.
+
 Run `yarpserver --write`, `yarp-omega3-server` and send RPC commands to `/yarp-omega3-server/rpc:i`.
 
 Available commands are

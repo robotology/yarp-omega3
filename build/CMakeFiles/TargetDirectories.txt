@@ -1,0 +1,14 @@
+/home/simon/Code/yarp-omega3/build/CMakeFiles/install/strip.dir
+/home/simon/Code/yarp-omega3/build/CMakeFiles/install/local.dir
+/home/simon/Code/yarp-omega3/build/CMakeFiles/install.dir
+/home/simon/Code/yarp-omega3/build/CMakeFiles/list_install_components.dir
+/home/simon/Code/yarp-omega3/build/CMakeFiles/rebuild_cache.dir
+/home/simon/Code/yarp-omega3/build/CMakeFiles/edit_cache.dir
+/home/simon/Code/yarp-omega3/build/CMakeFiles/uninstall.dir
+/home/simon/Code/yarp-omega3/build/src/server/CMakeFiles/install/strip.dir
+/home/simon/Code/yarp-omega3/build/src/server/CMakeFiles/install/local.dir
+/home/simon/Code/yarp-omega3/build/src/server/CMakeFiles/install.dir
+/home/simon/Code/yarp-omega3/build/src/server/CMakeFiles/list_install_components.dir
+/home/simon/Code/yarp-omega3/build/src/server/CMakeFiles/rebuild_cache.dir
+/home/simon/Code/yarp-omega3/build/src/server/CMakeFiles/edit_cache.dir
+/home/simon/Code/yarp-omega3/build/src/server/CMakeFiles/yarp-omega3-server.dir

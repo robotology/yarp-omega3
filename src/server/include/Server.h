@@ -19,7 +19,6 @@
 
 #include <yarp/sig/Vector.h>
 
-
 class Server : public yarp::os::RFModule,
                public ServiceIDL
 {
@@ -30,7 +29,7 @@ public:
 
     bool close() override;
 
-    bool configure(yarp::os::ResourceFinder&) override;
+    bool configure(yarp::os::ResourceFinder &) override;
 
     double getPeriod() override;
 
@@ -51,7 +50,15 @@ public:
     std::string quit() override;
 
 private:
-    enum class State { Close, Idle, PositionControl, PositionTracking, ForceControl, SetPosition};
+    enum class State
+    {
+        Close,
+        Idle,
+        PositionControl,
+        PositionTracking,
+        ForceControl,
+        SetPosition
+    };
 
     /**
      * Private API
@@ -64,7 +71,7 @@ private:
 
     Server::State get_state();
 
-    void set_state(const State& state);
+    void set_state(const State &state);
 
     void stop_motion();
 
@@ -106,6 +113,8 @@ private:
     yarp::os::BufferedPort<yarp::sig::Vector> port_position_;
 
     yarp::os::BufferedPort<yarp::sig::Vector> port_force_;
+
+    yarp::os::BufferedPort<yarp::sig::Vector> port_velocity_;
 };
 
 #endif /* SERVER_H */
