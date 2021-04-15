@@ -261,7 +261,7 @@ void Server::set_state(const State &state)
 
 void Server::stream_robot_state()
 {
-    double position[3]; // position x, y, z
+    double position[3]; // position px, py, pz
 
     dhdGetPosition(&position[0], &position[1], &position[2]);
 
@@ -269,13 +269,6 @@ void Server::stream_robot_state()
     position_out = Vector(3, position);
     port_position_.write();
 
-    double force[3]; // force fx, fy, fz
-
-    dhdGetForce(&force[0], &force[1], &force[2]);
-
-    Vector &force_out = port_force_.prepare();
-    force_out = Vector(3, force);
-    port_force_.write();
 
     double velocity[3]; // velocity vx, vy, vz
 
@@ -284,4 +277,13 @@ void Server::stream_robot_state()
     Vector &velocity_out = port_velocity_.prepare();
     velocity_out = Vector(3, velocity);
     port_velocity_.write();
+
+
+    double force[3]; // force fx, fy, fz
+
+    dhdGetForce(&force[0], &force[1], &force[2]);
+
+    Vector &force_out = port_force_.prepare();
+    force_out = Vector(3, force);
+    port_force_.write();
 }

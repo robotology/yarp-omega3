@@ -16,6 +16,7 @@
 
 #include <drdc.h>
 #include <thread>
+
 int main(int argc, char **argv)
 {
     yarp::os::Network yarp;
