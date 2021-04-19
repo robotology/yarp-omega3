@@ -112,9 +112,9 @@ private:
      */
     yarp::os::BufferedPort<yarp::sig::Vector> port_position_;
 
-    yarp::os::BufferedPort<yarp::sig::Vector> port_force_;
-
     yarp::os::BufferedPort<yarp::sig::Vector> port_velocity_;
+    
+    yarp::os::BufferedPort<yarp::sig::Vector> port_force_;
 };
 
 #endif /* SERVER_H */

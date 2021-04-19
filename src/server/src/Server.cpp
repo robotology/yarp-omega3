@@ -28,7 +28,7 @@ bool Server::close()
 bool Server::configure(ResourceFinder &rf)
 {
     /* Collect configuration parameters. */
-    period_ = rf.check("period", Value("0.01")).asDouble();
+    period_ = rf.check("period", Value("0.001")).asDouble(); // can be run with 3kHz (0.0003333333)
 
     /* Set up port for commands. */
     if (!port_rpc_.open("/yarp-omega3-server/rpc:i"))
