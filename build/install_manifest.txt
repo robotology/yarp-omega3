@@ -1,1 +1,1 @@
-/home/simon/Code/yarp-omega3/bin/yarp-omega3-server
+/home/simon/Code/robotology-superbuild/build/install/bin/yarp-omega3-server

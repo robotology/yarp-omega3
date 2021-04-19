@@ -1,22 +1,22 @@
 Performing C++ SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
 Change Dir: /home/simon/Code/yarp-omega3/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_0c919/fast && /usr/bin/make  -f CMakeFiles/cmTC_0c919.dir/build.make CMakeFiles/cmTC_0c919.dir/build
+Run Build Command(s):/usr/bin/make cmTC_ee944/fast && /usr/bin/make  -f CMakeFiles/cmTC_ee944.dir/build.make CMakeFiles/cmTC_ee944.dir/build
 make[1]: Entering directory '/home/simon/Code/yarp-omega3/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_0c919.dir/src.cxx.o
-/usr/bin/c++ -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_0c919.dir/src.cxx.o -c /home/simon/Code/yarp-omega3/build/CMakeFiles/CMakeTmp/src.cxx
-Linking CXX executable cmTC_0c919
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0c919.dir/link.txt --verbose=1
-/usr/bin/c++ CMakeFiles/cmTC_0c919.dir/src.cxx.o -o cmTC_0c919 
-/usr/bin/ld: CMakeFiles/cmTC_0c919.dir/src.cxx.o: in function `main':
+Building CXX object CMakeFiles/cmTC_ee944.dir/src.cxx.o
+/usr/bin/c++ -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_ee944.dir/src.cxx.o -c /home/simon/Code/yarp-omega3/build/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_ee944
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ee944.dir/link.txt --verbose=1
+/usr/bin/c++ CMakeFiles/cmTC_ee944.dir/src.cxx.o -o cmTC_ee944 
+/usr/bin/ld: CMakeFiles/cmTC_ee944.dir/src.cxx.o: in function `main':
 src.cxx:(.text+0x46): undefined reference to `pthread_create'
 /usr/bin/ld: src.cxx:(.text+0x52): undefined reference to `pthread_detach'
 /usr/bin/ld: src.cxx:(.text+0x5e): undefined reference to `pthread_cancel'
 /usr/bin/ld: src.cxx:(.text+0x6f): undefined reference to `pthread_join'
 collect2: error: ld returned 1 exit status
-make[1]: *** [CMakeFiles/cmTC_0c919.dir/build.make:106: cmTC_0c919] Error 1
+make[1]: *** [CMakeFiles/cmTC_ee944.dir/build.make:106: cmTC_ee944] Error 1
 make[1]: Leaving directory '/home/simon/Code/yarp-omega3/build/CMakeFiles/CMakeTmp'
-make: *** [Makefile:140: cmTC_0c919/fast] Error 2
+make: *** [Makefile:140: cmTC_ee944/fast] Error 2
 
 
 Source file was:

@@ -111,7 +111,7 @@ CMAKE_INSTALL_MANDIR:PATH=
 CMAKE_INSTALL_OLDINCLUDEDIR:PATH=/usr/include
 
 //Install path prefix, prepended onto install directories.
-CMAKE_INSTALL_PREFIX:PATH=/home/simon/Code/yarp-omega3
+CMAKE_INSTALL_PREFIX:PATH=/home/simon/Code/robotology-superbuild/build/install
 
 //qml plugins (lib/qt5/qml)
 CMAKE_INSTALL_QMLDIR:PATH=lib/qt5/qml
@@ -487,7 +487,7 @@ THREADS_HAVE_PTHREAD_ARG:INTERNAL=TRUE
 //ADVANCED property for variable: YARP_NO_DEPRECATED_WARNINGS
 YARP_NO_DEPRECATED_WARNINGS-ADVANCED:INTERNAL=1
 //CMAKE_INSTALL_PREFIX during last run
-_GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=/home/simon/Code/yarp-omega3
+_GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=/home/simon/Code/robotology-superbuild/build/install
 _PC_LIBUSB1_CFLAGS:INTERNAL=-I/usr/include/libusb-1.0
 _PC_LIBUSB1_CFLAGS_I:INTERNAL=
 _PC_LIBUSB1_CFLAGS_OTHER:INTERNAL=

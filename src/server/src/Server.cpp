@@ -28,7 +28,7 @@ bool Server::close()
 bool Server::configure(ResourceFinder &rf)
 {
     /* Collect configuration parameters. */
-    period_ = rf.check("period", Value("0.001")).asDouble(); // can be run with 3kHz (0.0003333333)
+    period_ = rf.check("period", Value("0.001")).asDouble(); // max can be 3kHz (1/3k), original was 0.01
 
     /* Set up port for commands. */
     if (!port_rpc_.open("/yarp-omega3-server/rpc:i"))
@@ -53,16 +53,16 @@ bool Server::configure(ResourceFinder &rf)
         return false;
     }
 
-    if (!port_force_.open("/yarp-omega3-server/force:o"))
-    {
-        std::cout << "Error: cannot open output port for force." << std::endl;
-
-        return false;
-    }
-
     if (!port_velocity_.open("/yarp-omega3-server/velocity:o"))
     {
         std::cout << "Error: cannot open output port for velocity." << std::endl;
+
+        return false;
+    }
+    
+    if (!port_force_.open("/yarp-omega3-server/force:o"))
+    {
+        std::cout << "Error: cannot open output port for force." << std::endl;
 
         return false;
     }
@@ -96,10 +96,11 @@ bool Server::configure(ResourceFinder &rf)
     }
 
     /* Move in a safe position and idle the robot. */
+    
     enable_position_control();
-    drdMoveToPos(0.0, 0.0, 0.0, false);
-    state_ = State::PositionControl;
-
+    drdMoveToPos(-0.11, 0.0, 0.0, false); // stay at initial position
+    state_ = State::Idle;
+    
     std::cout << "Server running..." << std::endl;
 
     return true;
