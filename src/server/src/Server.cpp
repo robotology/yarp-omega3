@@ -59,7 +59,7 @@ bool Server::configure(ResourceFinder &rf)
 
         return false;
     }
-    
+
     if (!port_force_.open("/yarp-omega3-server/force:o"))
     {
         std::cout << "Error: cannot open output port for force." << std::endl;
@@ -96,11 +96,12 @@ bool Server::configure(ResourceFinder &rf)
     }
 
     /* Move in a safe position and idle the robot. */
-    
+
     enable_position_control();
-    drdMoveToPos(-0.11, 0.0, 0.0, false); // stay at initial position
+    drdMoveToPos(0.0, 0.0, 0.0, false); // stay at initial position
+
     state_ = State::Idle;
-    
+
     std::cout << "Server running..." << std::endl;
 
     return true;
@@ -135,6 +136,16 @@ bool Server::updateModule()
         drdMoveToPos(x_, y_, z_, false);
 
         set_state(State::PositionControl);
+    }
+    /*
+    else if (state == State::SetPosTrackParam)
+    {
+        drdSetPosTrackParam(amax_, vmax_, jerk_);
+    }
+    */
+    else if (state == State::SetPosMoveParam)
+    {
+        drdSetPosMoveParam(amax_, vmax_, jerk_);
     }
     else if (state == State::ForceControl)
     {
@@ -197,6 +208,38 @@ std::string Server::track_position(const double x, const double y, const double 
     x_ = x;
     y_ = y;
     z_ = z;
+
+    return "OK";
+}
+
+std::string Server::set_position_track_param(const double amax, const double vmax, const double jerk)
+{
+    State state = get_state();
+
+    set_state(State::SetPosTrackParam);
+
+    amax_ = amax;
+    vmax_ = vmax;
+    jerk_ = jerk;
+
+    return "OK";
+}
+
+std::string Server::set_position_move_param(const double amax, const double vmax, const double jerk)
+{
+    State state = get_state();
+
+    if (state == State::Idle)
+        drdStart();
+
+    if (state != State::PositionControl)
+        enable_position_control();
+
+    set_state(State::SetPosMoveParam);
+
+    amax_ = amax;
+    vmax_ = vmax;
+    jerk_ = jerk;
 
     return "OK";
 }
@@ -270,7 +313,6 @@ void Server::stream_robot_state()
     position_out = Vector(3, position);
     port_position_.write();
 
-
     double velocity[3]; // velocity vx, vy, vz
 
     dhdGetLinearVelocity(&velocity[0], &velocity[1], &velocity[2]);
@@ -278,7 +320,6 @@ void Server::stream_robot_state()
     Vector &velocity_out = port_velocity_.prepare();
     velocity_out = Vector(3, velocity);
     port_velocity_.write();
-
 
     double force[3]; // force fx, fy, fz
 

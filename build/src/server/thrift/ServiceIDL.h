@@ -30,6 +30,10 @@ public:
 
     virtual std::string track_position(const double x, const double y, const double z);
 
+    virtual std::string set_position_move_param(const double amax, const double vmax, const double jerk);
+
+    virtual std::string set_position_track_param(const double amax, const double vmax, const double jerk);
+
     virtual std::string stop();
 
     virtual std::string quit();

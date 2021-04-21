@@ -43,7 +43,11 @@ public:
 
     std::string set_position(const double x, const double y, const double z) override;
 
+    std::string set_position_move_param(const double amax, const double vmax, const double jerk) override; // compiler error for override
+
     std::string track_position(const double x, const double y, const double z) override;
+
+    std::string set_position_track_param(const double amax, const double vmax, const double jerk) override; // compiler error for override
 
     std::string stop() override;
 
@@ -57,7 +61,9 @@ private:
         PositionControl,
         PositionTracking,
         ForceControl,
-        SetPosition
+        SetPosition,
+        SetPosMoveParam,
+        SetPosTrackParam
     };
 
     /**
@@ -100,6 +106,12 @@ private:
 
     double f_z_ = 0.0;
 
+    double amax_ = 0.0;
+
+    double vmax_ = 0.0;
+
+    double jerk_ = 0.0;
+
     /**
      * RPC server.
      */
@@ -113,7 +125,7 @@ private:
     yarp::os::BufferedPort<yarp::sig::Vector> port_position_;
 
     yarp::os::BufferedPort<yarp::sig::Vector> port_velocity_;
-    
+
     yarp::os::BufferedPort<yarp::sig::Vector> port_force_;
 };
 

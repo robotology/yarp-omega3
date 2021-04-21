@@ -192,6 +192,124 @@ bool ServiceIDL_track_position_helper::read(yarp::os::ConnectionReader& connecti
     return true;
 }
 
+class ServiceIDL_set_position_move_param_helper :
+        public yarp::os::Portable
+{
+public:
+    explicit ServiceIDL_set_position_move_param_helper(const double amax, const double vmax, const double jerk);
+    bool write(yarp::os::ConnectionWriter& connection) const override;
+    bool read(yarp::os::ConnectionReader& connection) override;
+
+    double m_amax;
+    double m_vmax;
+    double m_jerk;
+
+    thread_local static std::string s_return_helper;
+};
+
+thread_local std::string ServiceIDL_set_position_move_param_helper::s_return_helper = {};
+
+ServiceIDL_set_position_move_param_helper::ServiceIDL_set_position_move_param_helper(const double amax, const double vmax, const double jerk) :
+        m_amax{amax},
+        m_vmax{vmax},
+        m_jerk{jerk}
+{
+    s_return_helper = {};
+}
+
+bool ServiceIDL_set_position_move_param_helper::write(yarp::os::ConnectionWriter& connection) const
+{
+    yarp::os::idl::WireWriter writer(connection);
+    if (!writer.writeListHeader(7)) {
+        return false;
+    }
+    if (!writer.writeTag("set_position_move_param", 1, 4)) {
+        return false;
+    }
+    if (!writer.writeFloat64(m_amax)) {
+        return false;
+    }
+    if (!writer.writeFloat64(m_vmax)) {
+        return false;
+    }
+    if (!writer.writeFloat64(m_jerk)) {
+        return false;
+    }
+    return true;
+}
+
+bool ServiceIDL_set_position_move_param_helper::read(yarp::os::ConnectionReader& connection)
+{
+    yarp::os::idl::WireReader reader(connection);
+    if (!reader.readListReturn()) {
+        return false;
+    }
+    if (!reader.readString(s_return_helper)) {
+        reader.fail();
+        return false;
+    }
+    return true;
+}
+
+class ServiceIDL_set_position_track_param_helper :
+        public yarp::os::Portable
+{
+public:
+    explicit ServiceIDL_set_position_track_param_helper(const double amax, const double vmax, const double jerk);
+    bool write(yarp::os::ConnectionWriter& connection) const override;
+    bool read(yarp::os::ConnectionReader& connection) override;
+
+    double m_amax;
+    double m_vmax;
+    double m_jerk;
+
+    thread_local static std::string s_return_helper;
+};
+
+thread_local std::string ServiceIDL_set_position_track_param_helper::s_return_helper = {};
+
+ServiceIDL_set_position_track_param_helper::ServiceIDL_set_position_track_param_helper(const double amax, const double vmax, const double jerk) :
+        m_amax{amax},
+        m_vmax{vmax},
+        m_jerk{jerk}
+{
+    s_return_helper = {};
+}
+
+bool ServiceIDL_set_position_track_param_helper::write(yarp::os::ConnectionWriter& connection) const
+{
+    yarp::os::idl::WireWriter writer(connection);
+    if (!writer.writeListHeader(7)) {
+        return false;
+    }
+    if (!writer.writeTag("set_position_track_param", 1, 4)) {
+        return false;
+    }
+    if (!writer.writeFloat64(m_amax)) {
+        return false;
+    }
+    if (!writer.writeFloat64(m_vmax)) {
+        return false;
+    }
+    if (!writer.writeFloat64(m_jerk)) {
+        return false;
+    }
+    return true;
+}
+
+bool ServiceIDL_set_position_track_param_helper::read(yarp::os::ConnectionReader& connection)
+{
+    yarp::os::idl::WireReader reader(connection);
+    if (!reader.readListReturn()) {
+        return false;
+    }
+    if (!reader.readString(s_return_helper)) {
+        reader.fail();
+        return false;
+    }
+    return true;
+}
+
 class ServiceIDL_stop_helper :
         public yarp::os::Portable
 {
@@ -314,6 +432,26 @@ std::string ServiceIDL::track_position(const double x, const double y, const dou
     return ok ? ServiceIDL_track_position_helper::s_return_helper : std::string{};
 }
 
+std::string ServiceIDL::set_position_move_param(const double amax, const double vmax, const double jerk)
+{
+    ServiceIDL_set_position_move_param_helper helper{amax, vmax, jerk};
+    if (!yarp().canWrite()) {
+        yError("Missing server method '%s'?", "std::string ServiceIDL::set_position_move_param(const double amax, const double vmax, const double jerk)");
+    }
+    bool ok = yarp().write(helper, helper);
+    return ok ? ServiceIDL_set_position_move_param_helper::s_return_helper : std::string{};
+}
+
+std::string ServiceIDL::set_position_track_param(const double amax, const double vmax, const double jerk)
+{
+    ServiceIDL_set_position_track_param_helper helper{amax, vmax, jerk};
+    if (!yarp().canWrite()) {
+        yError("Missing server method '%s'?", "std::string ServiceIDL::set_position_track_param(const double amax, const double vmax, const double jerk)");
+    }
+    bool ok = yarp().write(helper, helper);
+    return ok ? ServiceIDL_set_position_track_param_helper::s_return_helper : std::string{};
+}
+
 std::string ServiceIDL::stop()
 {
     ServiceIDL_stop_helper helper{};
@@ -344,6 +482,8 @@ std::vector<std::string> ServiceIDL::help(const std::string& functionName)
         helpString.emplace_back("set_force");
         helpString.emplace_back("set_position");
         helpString.emplace_back("track_position");
+        helpString.emplace_back("set_position_move_param");
+        helpString.emplace_back("set_position_track_param");
         helpString.emplace_back("stop");
         helpString.emplace_back("quit");
         helpString.emplace_back("help");
@@ -356,6 +496,12 @@ std::vector<std::string> ServiceIDL::help(const std::string& functionName)
         }
         if (functionName == "track_position") {
             helpString.emplace_back("std::string track_position(const double x, const double y, const double z) ");
+        }
+        if (functionName == "set_position_move_param") {
+            helpString.emplace_back("std::string set_position_move_param(const double amax, const double vmax, const double jerk) ");
+        }
+        if (functionName == "set_position_track_param") {
+            helpString.emplace_back("std::string set_position_track_param(const double amax, const double vmax, const double jerk) ");
         }
         if (functionName == "stop") {
             helpString.emplace_back("std::string stop() ");
@@ -473,6 +619,64 @@ bool ServiceIDL::read(yarp::os::ConnectionReader& connection)
                     return false;
                 }
                 if (!writer.writeString(ServiceIDL_track_position_helper::s_return_helper)) {
+                    return false;
+                }
+            }
+            reader.accept();
+            return true;
+        }
+        if (tag == "set_position_move_param") {
+            double amax;
+            double vmax;
+            double jerk;
+            if (!reader.readFloat64(amax)) {
+                reader.fail();
+                return false;
+            }
+            if (!reader.readFloat64(vmax)) {
+                reader.fail();
+                return false;
+            }
+            if (!reader.readFloat64(jerk)) {
+                reader.fail();
+                return false;
+            }
+            ServiceIDL_set_position_move_param_helper::s_return_helper = set_position_move_param(amax, vmax, jerk);
+            yarp::os::idl::WireWriter writer(reader);
+            if (!writer.isNull()) {
+                if (!writer.writeListHeader(1)) {
+                    return false;
+                }
+                if (!writer.writeString(ServiceIDL_set_position_move_param_helper::s_return_helper)) {
+                    return false;
+                }
+            }
+            reader.accept();
+            return true;
+        }
+        if (tag == "set_position_track_param") {
+            double amax;
+            double vmax;
+            double jerk;
+            if (!reader.readFloat64(amax)) {
+                reader.fail();
+                return false;
+            }
+            if (!reader.readFloat64(vmax)) {
+                reader.fail();
+                return false;
+            }
+            if (!reader.readFloat64(jerk)) {
+                reader.fail();
+                return false;
+            }
+            ServiceIDL_set_position_track_param_helper::s_return_helper = set_position_track_param(amax, vmax, jerk);
+            yarp::os::idl::WireWriter writer(reader);
+            if (!writer.isNull()) {
+                if (!writer.writeListHeader(1)) {
+                    return false;
+                }
+                if (!writer.writeString(ServiceIDL_set_position_track_param_helper::s_return_helper)) {
                     return false;
                 }
             }

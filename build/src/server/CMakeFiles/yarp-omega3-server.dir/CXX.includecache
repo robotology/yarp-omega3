@@ -688,6 +688,22 @@ drdc.h
 yarp/os/Value.h
 -
 
+/home/simon/Code/yarp-omega3/src/server/src/main.cpp
+cstdlib
+-
+iostream
+-
+yarp/os/Network.h
+-
+yarp/os/ResourceFinder.h
+-
+Server.h
+-
+drdc.h
+-
+thread
+-
+
 src/server/thrift/ServiceIDL.h
 yarp/os/Wire.h
 -
