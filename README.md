@@ -44,12 +44,14 @@ Available commands are
 - `stop` (completely disengange robot control)
 - `quit` (close the module)
 - `set_position(x, y, z)` (send a static position)
-- `set_position_move_param(amax, vmax, jerk)` (set max acceleration, velocity and jerk)
+- `set_position_move_param(amax, vmax, jerk)` (set movement parameters)
 - `track_position(x, y, z)` (send a position, to be used in _streaming_ mode)
-- `set_position_track_param(amax, vmax, jerk)` (set max acceleration, velocity and jerk)
+- `set_position_track_param(amax, vmax, jerk)` (set movement parameters)
 - `set_force(f_x, f_y, f_z)` (send a force reference)
 
-The module switches from position to force control depending on the input from the user.
+Movement parameters: vmax=dxmax/dt, amax=dvmax/do, jerk=damax/dt
+
+The module switches from position to force control depending on the input from the user. After calling set_position_move_param or set_position_track_param please call position or force control again. The controller will not return in that state on its own.
 
 The state of the robot is available in forms of `yarp::sig::Vector`s sent over the port
 - `/yarp-omega3-server/robot_state:o` (3 position, 3 velocity, 3 force)
