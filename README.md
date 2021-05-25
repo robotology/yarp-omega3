@@ -35,7 +35,9 @@ In order to use the device in user space, you need to import the provided [udev 
 
 ### How to use
 
-Run `yarpserver --write`, `yarp-omega3-server` and send RPC commands to `/yarp-omega3-server/rpc:i`.
+Run `yarp-omega3-server` and send RPC commands to `/yarp-omega3-server/rpc:i`.
+
+> please run the `yarpserver` if you did not already before running the `yarp-omega3-server`
 
 Available commands are
 - `help`
