@@ -44,22 +44,20 @@ Available commands are
 - `stop` (completely disengange robot control)
 - `quit` (close the module)
 - `set_position(x, y, z)` (send a static position)
-- `set_position_move_param(amax, vmax, jerk)` (set movement parameters)
+- `set_position_move_param(amax, vmax, jerk)` (set motion parameters)
 - `track_position(x, y, z)` (send a position, to be used in _streaming_ mode)
-- `set_position_track_param(amax, vmax, jerk)` (set movement parameters)
+- `set_position_track_param(amax, vmax, jerk)` (set motion parameters)
 - `set_force(f_x, f_y, f_z)` (send a force reference)
 
 Movement parameters: vmax=dxmax/dt, amax=dvmax/do, jerk=damax/dt
 
-The module switches from position to force control depending on the input from the user. After calling set_position_move_param or set_position_track_param please call position or force control again. The controller will not return in that state on its own.
-
-The state of the robot is available in forms of `yarp::sig::Vector`s sent over the port
-- `/yarp-omega3-server/robot_state:o` (3 position, 3 velocity, 3 force)
+The state of the robot is available in forms of `yarp::sig::Vector`s sent over the port `/yarp-omega3-server/robot_state:o`. It comprises 9 values (3D Cartesian position, 3D linear velocity and 3D exchanged force).
 
 [Sample modules](src/samples/python) written in Python are available.
 
 #### Note:
-When connected to a usb hub it might be neccesary to reboot system to connect to `yarp-omega3-server` for the first use.
+- when connected to a usb hub it might be neccesary to reboot system to connect to the robot for the first use.
+- the module switches from position to force control depending on the input from the user. After calling `set_position_move_param` or `set_position_track_param` please call position or force control again. The server will not return in that state on its own.
 
 ### Maintainers
 
