@@ -49,9 +49,12 @@ Available commands are
 - `set_position_track_param(amax, vmax, jerk)` (set motion parameters)
 - `set_force(f_x, f_y, f_z)` (send a force reference)
 
-Movement parameters: vmax=dxmax/dt, amax=dvmax/do, jerk=damax/dt
-
 The state of the robot is available in forms of `yarp::sig::Vector`s sent over the port `/yarp-omega3-server/robot_state:o`. It comprises 9 values (3D Cartesian position, 3D linear velocity and 3D exchanged force).
+
+The aforementioned motion parameters are:
+- `amax`, the maximum linear acceleration;
+- `vmax`, the maximum linear velocity;
+- `jerk`, the maximum jerk.
 
 [Sample modules](src/samples/python) written in Python are available.
 
