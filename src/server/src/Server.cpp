@@ -16,7 +16,6 @@
 using namespace yarp::os;
 using namespace yarp::sig;
 
-
 bool Server::close()
 {
     /* Disengage the robot. */
@@ -27,10 +26,10 @@ bool Server::close()
 }
 
 
-bool Server::configure(ResourceFinder& rf)
+bool Server::configure(ResourceFinder &rf)
 {
     /* Collect configuration parameters. */
-    period_ = rf.check("period", Value("0.01")).asDouble();
+    period_ = rf.check("period", Value("0.01")).asDouble(); // max can be 3kHz (1/3k), original was 0.01
 
     /* Set up port for commands. */
     if (!port_rpc_.open("/yarp-omega3-server/rpc:i"))
@@ -47,17 +46,10 @@ bool Server::configure(ResourceFinder& rf)
         return false;
     }
 
-    /* Set up ports for streaming. */
-    if (!port_position_.open("/yarp-omega3-server/position:o"))
+    /* Set up port for streaming. */
+    if (!port_robot_state_.open("/yarp-omega3-server/robot_state:o"))
     {
-        std::cout << "Error: cannot open output port for position." << std::endl;
-
-        return false;
-    }
-
-    if (!port_force_.open("/yarp-omega3-server/force:o"))
-    {
-        std::cout << "Error: cannot open output port for force." << std::endl;
+        std::cout << "Error: cannot open output port for position, velocity and force." << std::endl;
 
         return false;
     }
@@ -77,13 +69,13 @@ bool Server::configure(ResourceFinder& rf)
         return false;
     }
 
-    if (!drdIsInitialized () && drdAutoInit () < 0)
+    if (!drdIsInitialized() && drdAutoInit() < 0)
     {
         std::cout << "Error: cannot initialize the Omega.3 robot." << std::endl;
 
         return false;
     }
-    else if (drdStart () < 0)
+    else if (drdStart() < 0)
     {
         std::cout << "Error: cannot start the Omega.3 robot." << std::endl;
 
@@ -131,6 +123,14 @@ bool Server::updateModule()
         drdMoveToPos(x_, y_, z_, false);
 
         set_state(State::PositionControl);
+    }
+    else if (state == State::SetPosTrackParam)
+    {
+        drdSetPosTrackParam(amax_, vmax_, jerk_);
+    }
+    else if (state == State::SetPosMoveParam)
+    {
+        drdSetPosMoveParam(amax_, vmax_, jerk_);
     }
     else if (state == State::ForceControl)
     {
@@ -201,6 +201,34 @@ std::string Server::track_position(const double x, const double y, const double 
 }
 
 
+std::string Server::set_position_track_param(const double amax, const double vmax, const double jerk)
+{
+    State state = get_state();
+        
+    set_state(State::SetPosTrackParam);
+
+    amax_ = amax;
+    vmax_ = vmax;
+    jerk_ = jerk;
+
+    return "OK";
+}
+
+
+std::string Server::set_position_move_param(const double amax, const double vmax, const double jerk)
+{
+    State state = get_state();
+
+    set_state(State::SetPosMoveParam);
+
+    amax_ = amax;
+    vmax_ = vmax;
+    jerk_ = jerk;
+
+    return "OK";
+}
+
+
 std::string Server::stop()
 {
     set_state(State::Idle);
@@ -260,7 +288,7 @@ void Server::stop_motion()
 }
 
 
-void Server::set_state(const State& state)
+void Server::set_state(const State &state)
 {
     mutex_.lock();
     state_ = state;
@@ -270,20 +298,18 @@ void Server::set_state(const State& state)
 
 void Server::stream_robot_state()
 {
-    double position[3];
+    double robot_state[9];
 
-    dhdGetPosition(&position[0], &position[1], &position[2]);
+    /* position px, py, pz */
+    dhdGetPosition(&robot_state[0], &robot_state[1], &robot_state[2]);
 
-    Vector& position_out = port_position_.prepare();
-    position_out = Vector(3, position);
-    port_position_.write();
+    /* volcity vx, vy, vz */
+    dhdGetLinearVelocity(&robot_state[3], &robot_state[4], &robot_state[5]);
 
+    /* force fx,fy, fz */
+    dhdGetForce(&robot_state[6], &robot_state[7], &robot_state[8]);
 
-    double force[3];
-
-    dhdGetForce(&force[0], &force[1], &force[2]);
-
-    Vector& force_out = port_force_.prepare();
-    force_out = Vector(3, force);
-    port_force_.write();
+    Vector& robot_state_out = port_robot_state_.prepare();
+    robot_state_out = Vector(9, robot_state);
+    port_robot_state_.write();
 }
