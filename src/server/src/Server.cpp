@@ -82,10 +82,8 @@ bool Server::configure(ResourceFinder &rf)
         return false;
     }
 
-    /* Move in a safe position and idle the robot. */
-    enable_position_control();
-    drdMoveToPos(0.0, 0.0, 0.0, false);
-    state_ = State::PositionControl;
+    /* Start and idle the robot. */
+    state_ = State::Idle;
 
     std::cout << "Server running..." << std::endl;
 
