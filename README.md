@@ -49,7 +49,7 @@ Available commands are
 - `set_position_track_param(amax, vmax, jerk)` (set motion parameters)
 - `set_force(f_x, f_y, f_z)` (send a force reference)
 
-The state of the robot is available in forms of `yarp::sig::Vector`s sent over the port `/yarp-omega3-server/robot_state:o`. It comprises 9 values (3D Cartesian position, 3D linear velocity and 3D exchanged force).
+The state of the robot is available in forms of a `yarp::sig::Vector` sent over the port `/yarp-omega3-server/robot_state:o`. It comprises 9 values (3D Cartesian position, 3D linear velocity and 3D exchanged force).
 
 The aforementioned motion parameters are:
 - `amax`, the maximum linear acceleration;
