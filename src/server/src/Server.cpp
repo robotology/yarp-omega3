@@ -199,10 +199,10 @@ std::string Server::track_position(const double x, const double y, const double 
 }
 
 
-std::string Server::set_position_track_param(const double amax, const double vmax, const double jerk)
+std::string Server::position_parameters(const double amax, const double vmax, const double jerk)
 {
     State state = get_state();
-        
+
     set_state(State::SetPosTrackParam);
 
     amax_ = amax;
@@ -213,7 +213,7 @@ std::string Server::set_position_track_param(const double amax, const double vma
 }
 
 
-std::string Server::set_position_move_param(const double amax, const double vmax, const double jerk)
+std::string Server::tracking_parameters(const double amax, const double vmax, const double jerk)
 {
     State state = get_state();
 
