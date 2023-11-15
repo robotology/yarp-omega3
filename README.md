@@ -1,7 +1,7 @@
 yarp-omega3
 ======================
 
-![CI badge](https://github.com/robotology-playground/yarp-omega3/workflows/C++%20CI%20Workflow/badge.svg)
+![CI badge](https://github.com/robotology-playground/yarp-omega3/workflows/CI%20Workflow/badge.svg)
 
 Simple YARP-enabled server for the [Force Dimension Omega.3](https://www.forcedimension.com/products/omega) device.
 
