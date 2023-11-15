@@ -1,10 +1,13 @@
-name: C++ CI Workflow
+name: CI Workflow
 
 on:
   push:
   pull_request:
     branches:
-      - main
+      - master
+      - devel
+  schedule:
+  - cron:  '0 2 * * *'
 
 jobs:
   build:
@@ -13,7 +16,7 @@ jobs:
     strategy:
       matrix:
         build_type: [Release]
-        os: [ubuntu-18.04, ubuntu-20.04]
+        os: [ubuntu-20.04, ubuntu-22.04]
 
     steps:
     - uses: actions/checkout@master
