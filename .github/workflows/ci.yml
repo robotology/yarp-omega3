@@ -1,10 +1,16 @@
-name: C++ CI Workflow
+name: CI Workflow
 
 on:
   push:
   pull_request:
     branches:
-      - main
+      - master
+      - devel
+  schedule:
+  - cron:  '0 2 * * *'
+
+env:
+  YARP_TAG: v3.8.1
 
 jobs:
   build:
@@ -13,7 +19,7 @@ jobs:
     strategy:
       matrix:
         build_type: [Release]
-        os: [ubuntu-18.04, ubuntu-20.04]
+        os: [ubuntu-20.04, ubuntu-22.04]
 
     steps:
     - uses: actions/checkout@master
@@ -27,10 +33,18 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install libusb-1.0-0-dev libpthread-stubs0-dev
-        sudo apt-get install build-essential cmake cmake-curses-gui coinor-libipopt-dev freeglut3-dev git libace-dev libboost-filesystem-dev libboost-system-dev libboost-thread-dev libdc1394-22-dev libedit-dev libeigen3-dev libgsl0-dev libjpeg-dev liblua5.1-dev libode-dev libopencv-dev libsdl1.2-dev libtinyxml-dev libv4l-dev libxml2-dev lua5.1 portaudio19-dev qml-module-qt-labs-folderlistmodel qml-module-qt-labs-settings qml-module-qtmultimedia qml-module-qtquick-controls qml-module-qtquick-dialogs qml-module-qtquick-window2 qml-module-qtquick2 qtbase5-dev qtdeclarative5-dev qtmultimedia5-dev swig libmatio-dev
+        sudo apt-get install build-essential cmake cmake-curses-gui coinor-libipopt-dev freeglut3-dev git libace-dev libboost-filesystem-dev libboost-system-dev libboost-thread-dev libedit-dev libeigen3-dev libgsl0-dev libjpeg-dev liblua5.1-dev libode-dev libopencv-dev libsdl1.2-dev libtinyxml-dev libv4l-dev libxml2-dev lua5.1 portaudio19-dev qml-module-qt-labs-folderlistmodel qml-module-qt-labs-settings qml-module-qtmultimedia qml-module-qtquick-controls qml-module-qtquick-dialogs qml-module-qtquick-window2 qml-module-qtquick2 qtbase5-dev qtdeclarative5-dev qtmultimedia5-dev swig libmatio-dev
+
+    - name: Cache dependencies from source [Ubuntu]
+      id: cache-src-deps
+      uses: actions/cache@v3
+      with:
+        path: |
+          ${{ github.workspace }}/install
+        key: src-deps-${{ runner.os }}-os-${{ matrix.os }}-build-${{ matrix.build_type }}-yarp-${{ env.YARP_TAG }}
 
     - name: Dependencies (from source) [Ubuntu]
-      if: contains(matrix.os, 'ubuntu')
+      if: steps.cache-src-deps.outputs.cache-hit != 'true' && contains(matrix.os, 'ubuntu')
       run: |
         # YCM
         cd ${GITHUB_WORKSPACE}
@@ -45,7 +59,7 @@ jobs:
         cd ${GITHUB_WORKSPACE}
         git clone https://github.com/robotology/yarp
         cd yarp
-        git checkout ${YARP_TAG}
+        git checkout ${{ env.YARP_TAG }}
         mkdir build
         cd build
         cmake -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/install -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/install ..

@@ -1,7 +1,7 @@
 yarp-omega3
 ======================
 
-![CI badge](https://github.com/robotology-playground/yarp-omega3/workflows/C++%20CI%20Workflow/badge.svg)
+![CI badge](https://github.com/robotology-playground/yarp-omega3/workflows/CI%20Workflow/badge.svg)
 
 Simple YARP-enabled server for the [Force Dimension Omega.3](https://www.forcedimension.com/products/omega) device.
 
@@ -41,15 +41,16 @@ Run `yarp-omega3-server` and send RPC commands to `/yarp-omega3-server/rpc:i`.
 
 Available commands are
 - `help`
+- `set_force(f_x, f_y, f_z)` (send a force reference)
+- `set_position(x, y, z)` (send a static position)
+- `track_position(x, y, z)` (send a position, to be used in _streaming_ mode)
+- `tracking_parameters(amax, vmax, jerk)` (set motion parameters)
+- `position_parameters(amax, vmax, jerk)` (set motion parameters)
 - `stop` (completely disengange robot control)
 - `quit` (close the module)
-- `set_position(x, y, z)` (send a static position)
-- `set_position_move_param(amax, vmax, jerk)` (set motion parameters)
-- `track_position(x, y, z)` (send a position, to be used in _streaming_ mode)
-- `set_position_track_param(amax, vmax, jerk)` (set motion parameters)
-- `set_force(f_x, f_y, f_z)` (send a force reference)
 
-The state of the robot is available in forms of `yarp::sig::Vector`s sent over the port `/yarp-omega3-server/robot_state:o`. It comprises 9 values (3D Cartesian position, 3D linear velocity and 3D exchanged force).
+
+The state of the robot is available in forms of a `yarp::sig::Vector` sent over the port `/yarp-omega3-server/robot_state:o`. It comprises 9 values (3D Cartesian position, 3D linear velocity and 3D exchanged force).
 
 The aforementioned motion parameters are:
 - `amax`, the maximum linear acceleration;
@@ -69,7 +70,7 @@ z | -0.065 | 0.1
 
 #### Note:
 - when connected to a usb hub it might be neccesary to reboot system to connect to the robot for the first use.
-- the module switches from position to force control depending on the input from the user. After calling `set_position_move_param` or `set_position_track_param` please call position or force control again. The server will not return in that state on its own.
+- the module switches from position to force control depending on the input from the user. After calling `tracking_parameters` or `position_parameters` please call position or force control again. The server will not return in that state on its own.
 
 ### Maintainers
 

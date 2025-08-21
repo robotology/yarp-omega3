@@ -29,7 +29,7 @@ bool Server::close()
 bool Server::configure(ResourceFinder &rf)
 {
     /* Collect configuration parameters. */
-    period_ = rf.check("period", Value("0.01")).asDouble(); // max can be 3kHz (1/3k), original was 0.01
+    period_ = rf.check("period", Value("0.01")).asFloat32(); // max can be 3kHz (1/3k), original was 0.01
 
     /* Set up port for commands. */
     if (!port_rpc_.open("/yarp-omega3-server/rpc:i"))
@@ -82,10 +82,8 @@ bool Server::configure(ResourceFinder &rf)
         return false;
     }
 
-    /* Move in a safe position and idle the robot. */
-    enable_position_control();
-    drdMoveToPos(0.0, 0.0, 0.0, false);
-    state_ = State::PositionControl;
+    /* Start and idle the robot. */
+    state_ = State::Idle;
 
     std::cout << "Server running..." << std::endl;
 
@@ -201,10 +199,10 @@ std::string Server::track_position(const double x, const double y, const double 
 }
 
 
-std::string Server::set_position_track_param(const double amax, const double vmax, const double jerk)
+std::string Server::position_parameters(const double amax, const double vmax, const double jerk)
 {
     State state = get_state();
-        
+
     set_state(State::SetPosTrackParam);
 
     amax_ = amax;
@@ -215,7 +213,7 @@ std::string Server::set_position_track_param(const double amax, const double vma
 }
 
 
-std::string Server::set_position_move_param(const double amax, const double vmax, const double jerk)
+std::string Server::tracking_parameters(const double amax, const double vmax, const double jerk)
 {
     State state = get_state();
 
