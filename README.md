@@ -58,6 +58,15 @@ The aforementioned motion parameters are:
 
 [Sample modules](src/samples/python) written in Python are available.
 
+### Omega coordinate system and control range
+<img src="assets/omega_coordinate_system.png" alt="Omega Coordinate System" width="500" height="600">
+
+axis | min [m] | max [m]
+-----|-----|-----
+x | -0.045 | 0.07
+y | -0.09 | 0.09
+z | -0.065 | 0.1
+
 #### Note:
 - when connected to a usb hub it might be neccesary to reboot system to connect to the robot for the first use.
 - the module switches from position to force control depending on the input from the user. After calling `set_position_move_param` or `set_position_track_param` please call position or force control again. The server will not return in that state on its own.

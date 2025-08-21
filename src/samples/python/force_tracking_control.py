@@ -9,9 +9,9 @@ def send_force_reference(rpc, x, y, z):
     reply = yarp.Bottle()
 
     cmd.addString('set_force')
-    cmd.addDouble(x)
-    cmd.addDouble(y)
-    cmd.addDouble(z)
+    cmd.addFloat64(x)
+    cmd.addFloat64(y)
+    cmd.addFloat64(z)
 
 
     rpc.write(cmd, reply)
