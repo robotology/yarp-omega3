@@ -44,8 +44,10 @@ Available commands are
 - `set_force(f_x, f_y, f_z)` (send a force reference)
 - `set_position(x, y, z)` (send a static position)
 - `track_position(x, y, z)` (send a position, to be used in _streaming_ mode)
-- `tracking_parameters(amax, vmax, jerk)` (set motion parameters)
-- `position_parameters(amax, vmax, jerk)` (set motion parameters)
+- `get_pos_move_parameters()` (returns current amax, vmax, jerk in position control)
+- `set_pos_move_parameters(amax, vmax, jerk)` (set motion parameters for position control) 
+- `get_tracking_move_parameters()` (returns current amax, vmax, jerk in tracking control)
+- `set_tracking_move_parameters(amax, vmax, jerk)` (set motion parameters)
 - `stop` (completely disengange robot control)
 - `quit` (close the module)
 
@@ -60,7 +62,9 @@ The aforementioned motion parameters are:
 [Sample modules](src/samples/python) written in Python are available.
 
 ### Omega coordinate system and control range
-<img src="assets/omega_coordinate_system.png" alt="Omega Coordinate System" width="500" height="600">
+<img src="assets/omega_coordinate_system.png" alt="Omega Coordinate System" width="450" height="400">
+
+Given the mechanical design, the following mentioned values are the maximum reachable per axis. The workspace is limited to a sphere around the center, the further the robot is positioned of center along the x-axis, the less you can move along the y- and z-axis (until you eventually can not move at all when reaching the max x value). The same is true for the other axis.
 
 axis | min [m] | max [m]
 -----|-----|-----
@@ -72,8 +76,13 @@ z | -0.065 | 0.1
 - when connected to a usb hub it might be neccesary to reboot system to connect to the robot for the first use.
 - the module switches from position to force control depending on the input from the user. After calling `tracking_parameters` or `position_parameters` please call position or force control again. The server will not return in that state on its own.
 
-### Maintainers
+### Further readings
+Further readings about the SDKs you can find when the download is finished in the SDK folder under documentation. We use the Robotic SDK to control the robot and we use the Haptic SDK to read the robot states.
 
+### Implenetation of further functions
+The SDKs offer many further functionalities. To implement them add the function to the [Server.h](/src/server/include/Server.h), [Server.cpp](/src/server/src/Server.cpp) and [server_idl.thrift](/src/server/thrift/server_idl.thrift). In the [server_idl.thrift](/src/server/thrift/server_idl.thrift) function names must be distinct. set_position and set_position_params will not work. Instead use set_position and set_pos_params for instance.
+
+### Maintainers
 This repository is maintained by:
 
 | | |

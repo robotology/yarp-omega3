@@ -1,3 +1,5 @@
 build/*
+src/server/sdk-3.17.6*
 src/server/sdk-3.10.1/*
+src/server/sdk-3.17.6/*
 src/server/sdk.tar.gz
