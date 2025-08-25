@@ -45,9 +45,13 @@ public:
 
     std::string track_position(const double x, const double y, const double z) override;
 
-    std::string position_parameters(const double amax, const double vmax, const double jerk) override;
+    std::string get_pos_move_parameters();
 
-    std::string tracking_parameters(const double amax, const double vmax, const double jerk) override;
+    std::string set_pos_move_parameters(const double amax, const double vmax, const double jerk);
+
+    std::string get_tracking_move_parameters();
+
+    std::string set_tracking_move_parameters(const double amax, const double vmax, const double jerk);
 
     std::string stop() override;
 

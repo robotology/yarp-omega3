@@ -25,7 +25,6 @@ bool Server::close()
     return true;
 }
 
-
 bool Server::configure(ResourceFinder &rf)
 {
     /* Collect configuration parameters. */
@@ -81,6 +80,8 @@ bool Server::configure(ResourceFinder &rf)
 
         return false;
     }
+    /* set motion parameters to default */
+    drdSetPosMoveParam(1.0, 1.0, 1.0);
 
     /* Start and idle the robot. */
     state_ = State::Idle;
@@ -90,12 +91,10 @@ bool Server::configure(ResourceFinder &rf)
     return true;
 }
 
-
 double Server::getPeriod()
 {
     return period_;
 }
-
 
 bool Server::updateModule()
 {
@@ -122,13 +121,13 @@ bool Server::updateModule()
 
         set_state(State::PositionControl);
     }
-    else if (state == State::SetPosTrackParam)
-    {
-        drdSetPosTrackParam(amax_, vmax_, jerk_);
-    }
     else if (state == State::SetPosMoveParam)
     {
         drdSetPosMoveParam(amax_, vmax_, jerk_);
+    }
+    else if (state == State::SetPosTrackParam)
+    {
+        drdSetPosTrackParam(amax_, vmax_, jerk_);
     }
     else if (state == State::ForceControl)
     {
@@ -137,7 +136,6 @@ bool Server::updateModule()
 
     return true;
 }
-
 
 std::string Server::set_force(const double f_x, const double f_y, const double f_z)
 {
@@ -158,7 +156,6 @@ std::string Server::set_force(const double f_x, const double f_y, const double f
     return "OK";
 }
 
-
 std::string Server::set_position(const double x, const double y, const double z)
 {
     State state = get_state();
@@ -177,7 +174,6 @@ std::string Server::set_position(const double x, const double y, const double z)
 
     return "OK";
 }
-
 
 std::string Server::track_position(const double x, const double y, const double z)
 {
@@ -198,8 +194,43 @@ std::string Server::track_position(const double x, const double y, const double 
     return "OK";
 }
 
+std::string Server::get_pos_move_parameters()
+{
+    double robot_pos_param[3];
 
-std::string Server::position_parameters(const double amax, const double vmax, const double jerk)
+    int result = drdGetPosMoveParam(&robot_pos_param[0], &robot_pos_param[1], &robot_pos_param[2]);
+
+    std::ostringstream oss;
+    oss << robot_pos_param[0] << " " << robot_pos_param[1] << " " << robot_pos_param[2];
+
+    return oss.str();
+}
+
+std::string Server::set_pos_move_parameters(const double amax, const double vmax, const double jerk)
+{
+    State state = get_state();
+    set_state(State::SetPosMoveParam);
+
+    amax_ = amax;
+    vmax_ = vmax;
+    jerk_ = jerk;
+
+    return "OK";
+}
+
+std::string Server::get_tracking_move_parameters()
+{
+    double robot_track_param[3];
+
+    int result = drdGetPosTrackParam(&robot_track_param[0], &robot_track_param[1], &robot_track_param[2]);
+
+    std::ostringstream oss;
+    oss << robot_track_param[0] << " " << robot_track_param[1] << " " << robot_track_param[2];
+
+    return oss.str();
+}
+
+std::string Server::set_tracking_move_parameters(const double amax, const double vmax, const double jerk)
 {
     State state = get_state();
 
@@ -212,21 +243,6 @@ std::string Server::position_parameters(const double amax, const double vmax, co
     return "OK";
 }
 
-
-std::string Server::tracking_parameters(const double amax, const double vmax, const double jerk)
-{
-    State state = get_state();
-
-    set_state(State::SetPosMoveParam);
-
-    amax_ = amax;
-    vmax_ = vmax;
-    jerk_ = jerk;
-
-    return "OK";
-}
-
-
 std::string Server::stop()
 {
     set_state(State::Idle);
@@ -236,7 +252,6 @@ std::string Server::stop()
     return "OK";
 }
 
-
 std::string Server::quit()
 {
     set_state(State::Close);
@@ -244,20 +259,17 @@ std::string Server::quit()
     return "OK";
 }
 
-
 void Server::enable_position_control()
 {
     drdRegulatePos(true);
     drdEnableFilter(false);
 }
 
-
 void Server::enable_position_tracking()
 {
     drdRegulatePos(true);
     drdEnableFilter(true);
 }
-
 
 void Server::enable_force_control()
 {
@@ -266,7 +278,6 @@ void Server::enable_force_control()
     drdRegulateRot(false);
     drdEnableFilter(false);
 }
-
 
 Server::State Server::get_state()
 {
@@ -279,12 +290,10 @@ Server::State Server::get_state()
     return state;
 }
 
-
 void Server::stop_motion()
 {
     drdStop();
 }
-
 
 void Server::set_state(const State &state)
 {
@@ -292,7 +301,6 @@ void Server::set_state(const State &state)
     state_ = state;
     mutex_.unlock();
 }
-
 
 void Server::stream_robot_state()
 {
@@ -307,7 +315,7 @@ void Server::stream_robot_state()
     /* force fx,fy, fz */
     dhdGetForce(&robot_state[6], &robot_state[7], &robot_state[8]);
 
-    Vector& robot_state_out = port_robot_state_.prepare();
+    Vector &robot_state_out = port_robot_state_.prepare();
     robot_state_out = Vector(9, robot_state);
     port_robot_state_.write();
 }
