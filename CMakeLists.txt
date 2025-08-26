@@ -9,7 +9,7 @@
 
 cmake_minimum_required(VERSION 3.18)
 
-project(yarp-omega-3 LANGUAGES CXX VERSION 3.10.1)
+project(yarp-omega-3 LANGUAGES CXX VERSION 3.17.6)
 
 find_package(YCM REQUIRED)
 
