@@ -41,17 +41,17 @@ public:
 
     std::string set_force(const double f_x, const double f_y, const double f_z) override;
 
-    std::string set_position(const double x, const double y, const double z) override;
+    std::string move_to_pos(const double x, const double y, const double z);
 
-    std::string track_position(const double x, const double y, const double z) override;
+    std::string track_pos(const double x, const double y, const double z);
 
-    std::string get_pos_move_parameters();
+    std::string get_pos_move_param();
 
-    std::string set_pos_move_parameters(const double amax, const double vmax, const double jerk);
+    std::string set_pos_move_param(const double amax, const double vmax, const double jerk);
 
-    std::string get_tracking_move_parameters();
+    std::string get_pos_tracking_param();
 
-    std::string set_tracking_move_parameters(const double amax, const double vmax, const double jerk);
+    std::string set_pos_track_param(const double amax, const double vmax, const double jerk);
 
     std::string stop() override;
 

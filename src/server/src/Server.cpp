@@ -156,7 +156,7 @@ std::string Server::set_force(const double f_x, const double f_y, const double f
     return "OK";
 }
 
-std::string Server::set_position(const double x, const double y, const double z)
+std::string Server::move_to_pos(const double x, const double y, const double z)
 {
     State state = get_state();
 
@@ -175,7 +175,7 @@ std::string Server::set_position(const double x, const double y, const double z)
     return "OK";
 }
 
-std::string Server::track_position(const double x, const double y, const double z)
+std::string Server::track_pos(const double x, const double y, const double z)
 {
     State state = get_state();
 
@@ -194,7 +194,7 @@ std::string Server::track_position(const double x, const double y, const double 
     return "OK";
 }
 
-std::string Server::get_pos_move_parameters()
+std::string Server::get_pos_move_param()
 {
     double robot_pos_param[3];
 
@@ -206,7 +206,7 @@ std::string Server::get_pos_move_parameters()
     return oss.str();
 }
 
-std::string Server::set_pos_move_parameters(const double amax, const double vmax, const double jerk)
+std::string Server::set_pos_move_param(const double amax, const double vmax, const double jerk)
 {
     State state = get_state();
     set_state(State::SetPosMoveParam);
@@ -218,7 +218,7 @@ std::string Server::set_pos_move_parameters(const double amax, const double vmax
     return "OK";
 }
 
-std::string Server::get_tracking_move_parameters()
+std::string Server::get_pos_tracking_param()
 {
     double robot_track_param[3];
 
@@ -230,7 +230,7 @@ std::string Server::get_tracking_move_parameters()
     return oss.str();
 }
 
-std::string Server::set_tracking_move_parameters(const double amax, const double vmax, const double jerk)
+std::string Server::set_pos_track_param(const double amax, const double vmax, const double jerk)
 {
     State state = get_state();
 

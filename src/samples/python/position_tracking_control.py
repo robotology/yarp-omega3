@@ -8,7 +8,7 @@ def send_position_reference(rpc, x, y, z):
     cmd = yarp.Bottle()
     reply = yarp.Bottle()
 
-    cmd.addString('track_position')
+    cmd.addString('track_pos')
     cmd.addFloat32(x)
     cmd.addFloat32(y)
     cmd.addFloat32(z)

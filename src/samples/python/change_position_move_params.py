@@ -10,7 +10,7 @@ def send_position_reference(rpc, x, y, z):
     cmd = yarp.Bottle()
     reply = yarp.Bottle()
 
-    cmd.addString('set_position')
+    cmd.addString('move_to_pos')
     cmd.addFloat32(x)
     cmd.addFloat32(y)
     cmd.addFloat32(z)
@@ -23,7 +23,7 @@ def get_position_move_parameters(rpc):
     cmd = yarp.Bottle()
     reply = yarp.Bottle()
 
-    cmd.addString('get_pos_move_parameters')
+    cmd.addString('get_pos_move_param')
 
     rpc.write(cmd, reply)
     param_str = reply.get(0).asString()
@@ -37,13 +37,12 @@ def set_position_move_parameters(rpc, amax, vmax, jerk):
     cmd = yarp.Bottle()
     reply = yarp.Bottle()
 
-    cmd.addString('set_pos_move_parameters')
+    cmd.addString('set_pos_move_param')
     cmd.addFloat32(amax)
     cmd.addFloat32(vmax)
     cmd.addFloat32(jerk)
 
     rpc.write(cmd, reply)
-    print(f"Reply: {reply.toString()}")
 
 
 def send_stop(rpc):
