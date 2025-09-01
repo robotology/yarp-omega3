@@ -149,13 +149,14 @@ std::string Server::set_force(const double f_x, const double f_y, const double f
 
     set_state(State::ForceControl);
 
-    f_x_ = f_x;
-    f_y_ = f_y;
-    f_z_ = f_z;
+    f_x_ = f_x; // [N]
+    f_y_ = f_y; // [N]
+    f_z_ = f_z; // [N]
 
     return "OK";
 }
 
+// x, y, z are set in [m]
 std::string Server::move_to_pos(const double x, const double y, const double z)
 {
     State state = get_state();
@@ -168,9 +169,9 @@ std::string Server::move_to_pos(const double x, const double y, const double z)
 
     set_state(State::SetPosition);
 
-    x_ = x;
-    y_ = y;
-    z_ = z;
+    x_ = x; // [m]
+    y_ = y; // [m]
+    z_ = z; // [m]
 
     return "OK";
 }
@@ -187,16 +188,16 @@ std::string Server::track_pos(const double x, const double y, const double z)
 
     set_state(State::PositionTracking);
 
-    x_ = x;
-    y_ = y;
-    z_ = z;
+    x_ = x; // [m]
+    y_ = y; // [m]
+    z_ = z; // [m]
 
     return "OK";
 }
 
 std::string Server::get_pos_move_param()
 {
-    double robot_pos_param[3];
+    double robot_pos_param[3]; // amax [m/s2], vmax [m/s], jerk [m/s3]
 
     int result = drdGetPosMoveParam(&robot_pos_param[0], &robot_pos_param[1], &robot_pos_param[2]);
 
@@ -211,16 +212,16 @@ std::string Server::set_pos_move_param(const double amax, const double vmax, con
     State state = get_state();
     set_state(State::SetPosMoveParam);
 
-    amax_ = amax;
-    vmax_ = vmax;
-    jerk_ = jerk;
+    amax_ = amax; // [m/s2]
+    vmax_ = vmax; // [m/s]
+    jerk_ = jerk; // [m/s3]
 
     return "OK";
 }
 
 std::string Server::get_pos_tracking_param()
 {
-    double robot_track_param[3];
+    double robot_track_param[3]; // amax [m/s2], vmax [m/s], jerk [m/s3]
 
     int result = drdGetPosTrackParam(&robot_track_param[0], &robot_track_param[1], &robot_track_param[2]);
 
@@ -236,9 +237,9 @@ std::string Server::set_pos_track_param(const double amax, const double vmax, co
 
     set_state(State::SetPosTrackParam);
 
-    amax_ = amax;
-    vmax_ = vmax;
-    jerk_ = jerk;
+    amax_ = amax; // [m/s2]
+    vmax_ = vmax; // [m/s]
+    jerk_ = jerk; // [m/s3]
 
     return "OK";
 }
@@ -307,13 +308,13 @@ void Server::stream_robot_state()
     double robot_state[9];
 
     /* position px, py, pz */
-    dhdGetPosition(&robot_state[0], &robot_state[1], &robot_state[2]);
+    dhdGetPosition(&robot_state[0], &robot_state[1], &robot_state[2]); // [m]
 
     /* volcity vx, vy, vz */
-    dhdGetLinearVelocity(&robot_state[3], &robot_state[4], &robot_state[5]);
+    dhdGetLinearVelocity(&robot_state[3], &robot_state[4], &robot_state[5]); // [m/s]
 
     /* force fx,fy, fz */
-    dhdGetForce(&robot_state[6], &robot_state[7], &robot_state[8]);
+    dhdGetForce(&robot_state[6], &robot_state[7], &robot_state[8]); // [N]
 
     Vector &robot_state_out = port_robot_state_.prepare();
     robot_state_out = Vector(9, robot_state);

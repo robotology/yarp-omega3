@@ -41,23 +41,23 @@ Run `yarp-omega3-server` and send RPC commands to `/yarp-omega3-server/rpc:i`.
 
 Available commands are
 - `help`
-- `set_force(f_x, f_y, f_z)` (send a force reference)
-- `set_position(x, y, z)` (send a static position)
-- `track_position(x, y, z)` (send a position, to be used in _streaming_ mode)
-- `get_pos_move_parameters()` (returns current amax, vmax, jerk in position control)
-- `set_pos_move_parameters(amax, vmax, jerk)` (set motion parameters for position control) 
-- `get_tracking_move_parameters()` (returns current amax, vmax, jerk in tracking control)
-- `set_tracking_move_parameters(amax, vmax, jerk)` (set motion parameters)
+- `set_force(f_x, f_y, f_z)` (send a force reference [N])
+- `set_position(x, y, z)` (send a static position [m])
+- `track_position(x, y, z)` (send a position, to be used in _streaming_ mode [m])
+- `get_pos_move_parameters()` (returns current amax [m/s2], vmax [m/s], jerk [m/s3] in position control)
+- `set_pos_move_parameters(amax, vmax, jerk)` (set motion parameters amax [m/s2], vmax [m/s], jerk [m/s3] for position control) 
+- `get_tracking_move_parameters()` (returns current amax [m/s2], vmax [m/s], jerk [m/s3] in tracking control)
+- `set_tracking_move_parameters(amax, vmax, jerk)` (set motion parameters amax [m/s2], vmax [m/s], jerk [m/s3] to be used in _streaming_ mode)
 - `stop` (completely disengange robot control)
 - `quit` (close the module)
 
 
-The state of the robot is available in forms of a `yarp::sig::Vector` sent over the port `/yarp-omega3-server/robot_state:o`. It comprises 9 values (3D Cartesian position, 3D linear velocity and 3D exchanged force).
+The state of the robot is available in forms of a `yarp::sig::Vector` sent over the port `/yarp-omega3-server/robot_state:o`. It comprises 9 values (3D Cartesian position [m], 3D linear velocity [m/s] and 3D exchanged force [N]).
 
 The aforementioned motion parameters are:
-- `amax`, the maximum linear acceleration;
-- `vmax`, the maximum linear velocity;
-- `jerk`, the maximum jerk.
+- `amax`, the maximum linear acceleration in [m/s2];
+- `vmax`, the maximum linear velocity in [m/s];
+- `jerk`, the maximum jerk in [m/s3].
 
 [Sample modules](src/samples/python) written in Python are available.
 

@@ -68,18 +68,20 @@ def main():
 
     # Test four with different movement parameters
     try:
-        print("Getting default position move parameters...")
+        print("Setting position move parameters to: 1.0, 1.0, 1.0")
+        print(set_position_move_parameters(rpc_client, 1.0, 1.0, 1.0))
+        print("Getting position move parameters...")
         print(get_position_move_parameters(rpc_client))
         send_position_reference(rpc_client, 0.0, 0.09, 0.0)
         time.sleep(3.0)
 
 
-        print("Setting position move parameters to: 0.1, 1.0, 1.0")
-        print(set_position_move_parameters(rpc_client, 0.1, 1.0, 1.0))
+        print("Setting position move parameters to: 0.01, 1.0, 1.0")
+        print(set_position_move_parameters(rpc_client, 0.01, 1.0, 1.0))
         print("Getting position move parameters...")
         print(get_position_move_parameters(rpc_client))
         send_position_reference(rpc_client, 0.0, -0.09, 0.0)
-        time.sleep(4.0)
+        time.sleep(10.0)
 
         print("Setting position move parameters to: 2.0, 1.0, 1.0")
         print(set_position_move_parameters(rpc_client, 2.0, 1.0, 1.0))
@@ -88,8 +90,8 @@ def main():
         send_position_reference(rpc_client, 0.0, 0.09, 0.0)
         time.sleep(2.0)
 
-        print("Setting position move parameters to: 10.0, 0.1, 1.0")
-        print(set_position_move_parameters(rpc_client, 10.0, 0.1, 1.0))
+        print("Setting position move parameters to: 1.0, 0.1, 1.0")
+        print(set_position_move_parameters(rpc_client, 1.0, 0.1, 1.0))
         print("Getting position move parameters...")
         print(get_position_move_parameters(rpc_client))
         send_position_reference(rpc_client, 0.0, -0.09, 0.0)
