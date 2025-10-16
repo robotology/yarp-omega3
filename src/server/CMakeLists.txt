@@ -12,7 +12,7 @@ set(SDK_VERSION 3.17.6)
 # path has changed in the past. Go to https://www.forcedimension.com/software to check most recent
 set(SDK_URL https://downloads.forcedimension.com/sdk/sdk-${SDK_VERSION}-linux-x86_64-gcc.tar.gz)
 set(SDK_LOCAL ${CMAKE_CURRENT_SOURCE_DIR}/sdk-3.17.6-linux-x86_64-gcc.tar.gz)
-# set(SDK_HASH 8cbf0ba9f953dc9d0e26116cc4fb002fac223a7d0e7dee2aeea5b1d728c3ebcb36edc91469068cc6ff23e8d33e313d79e20c7d1b6577993c00e28b625b2ca33c)
+set(SDK_HASH 2ce05f0a782417a4cf77ab9d0fef73a9603adeb9570b273683ccfc24f8c0696e3ae7d2e68cae6b55a550db932abe36e359873e65e52e5253c5ed781a7f219c87)
 
 function(download_file url filename)
   message("Downloading Force Dimension SDK...")
