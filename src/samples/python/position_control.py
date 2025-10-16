@@ -7,7 +7,7 @@ def send_position_reference(rpc, x, y, z):
     cmd = yarp.Bottle()
     reply = yarp.Bottle()
 
-    cmd.addString('move_to_pos')
+    cmd.addString('moveToPos')
     cmd.addFloat32(x)
     cmd.addFloat32(y)
     cmd.addFloat32(z)

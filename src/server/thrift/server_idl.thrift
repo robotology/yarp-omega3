@@ -7,13 +7,13 @@
 
 service ServiceIDL
 {
-    string set_force(1:double f_x, 2:double f_y, 3:double f_z);
-    string move_to_pos(1:double x, 2:double y, 3:double z);
-    string track_pos(1:double x, 2:double y, 3:double z);
-    string get_pos_move_param();
-    string set_pos_move_param(1:double amax, 2:double vmax, 3:double jerk);
-    string get_pos_tracking_param();
-    string set_pos_track_param(1:double amax, 2:double vmax, 3:double jerk);
+    string setForce(1:double f_x, 2:double f_y, 3:double f_z);
+    string moveToPos(1:double x, 2:double y, 3:double z);
+    string trackPos(1:double x, 2:double y, 3:double z);
+    string getPosMoveParam();
+    string setPosMoveParam(1:double amax, 2:double vmax, 3:double jerk);
+    string getPosTrackParam();
+    string setPosTrackParam(1:double amax, 2:double vmax, 3:double jerk);
     string stop();
     string quit();
 }

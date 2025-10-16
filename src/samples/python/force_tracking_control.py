@@ -8,7 +8,7 @@ def send_force_reference(rpc, x, y, z):
     cmd = yarp.Bottle()
     reply = yarp.Bottle()
 
-    cmd.addString('set_force')
+    cmd.addString('setForce')
     cmd.addFloat32(x)
     cmd.addFloat32(y)
     cmd.addFloat32(z)
