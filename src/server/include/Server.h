@@ -39,15 +39,19 @@ public:
      * Thrift-side API
      */
 
-    std::string set_force(const double f_x, const double f_y, const double f_z) override;
+    std::string setForce(const double f_x, const double f_y, const double f_z) override;
 
-    std::string set_position(const double x, const double y, const double z) override;
+    std::string moveToPos(const double x, const double y, const double z) override;
 
-    std::string track_position(const double x, const double y, const double z) override;
+    std::string trackPos(const double x, const double y, const double z) override;
 
-    std::string position_parameters(const double amax, const double vmax, const double jerk) override;
+    std::string getPosMoveParam() override;
 
-    std::string tracking_parameters(const double amax, const double vmax, const double jerk) override;
+    std::string setPosMoveParam(const double amax, const double vmax, const double jerk) override;
+
+    std::string getPosTrackParam() override;
+
+    std::string setPosTrackParam(const double amax, const double vmax, const double jerk) override;
 
     std::string stop() override;
 
